@@ -4,11 +4,28 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const api = require("./routes");
+const hbs = require("express-handlebars");
 //const ProductController = require("./controllers/product.js");
 
 //Middlewares. Todo lo que sea HTTP, pasa por estas capas!
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+//Uso de motor e plantillas hbs
+app.engine(
+  ".hbs",
+  hbs({
+    defaultLayout: "default",
+    extname: ".hbs",
+  })
+);
+app.set("view engine", ".hbs");
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+//----Fin Uso de motor e plantillas hbs
+
 app.use("/api", api);
 
 /*
